@@ -1,20 +1,20 @@
 import sys
 import heapq
+input = sys.stdin.readline
 
-result = 0
-n = int(input())
+N = int(input().strip())
+cards = [int(input().strip()) for _ in range(N)]
+heapq.heapify(cards)
+result = 0 # 결과 : 총 누적합
 
-data_list = []
-for _ in range(n):
-  data_list.append(int(sys.stdin.readline().rstrip()))
-data_list.sort()
-
-heapq.heapify(data_list)
-while len(data_list) != 1:
-  # 파이썬에서 힙 라이브러리는 최소힙이므로 항상 최상단 노드가 최솟값이다
-  first = heapq.heappop(data_list)
-  second = heapq.heappop(data_list)
-  heapq.heappush(data_list, first+second)
-  result += (first+second)
-
+# 최소힙에서 2개씩 꺼내서 합산 후 다시 힙에 추가 -> 반복
+while len(cards) >= 2:
+	num_first = heapq.heappop(cards)
+	num_second = heapq.heappop(cards)
+	sum_result = (num_first + num_second)
+	
+	# 힙에 합산 결과를 넣고 결과를 누적
+	heapq.heappush(cards, sum_result)
+	result += sum_result 
+	
 print(result)
